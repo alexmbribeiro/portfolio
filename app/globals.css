@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+/*
+  Committed dark editorial palette.
+
+  Colour does exactly one job on this site: encoding belief. The chrome is
+  monochrome ink on paper-black, so the only saturated pixels a visitor sees are
+  the ones carrying data. The diverging pair below is the validated blue<->red
+  from the reference palette, checked against this surface for CVD separation
+  and 3:1 contrast; the neutral midpoint is deliberately low-contrast because it
+  means "no signal", and every meter carries a visible numeric label so the
+  midpoint never has to be read by colour alone.
+*/
+:root {
+  color-scheme: dark;
+
+  --bg: #0a0a09;
+  --surface: #121211;
+  --surface-2: #1a1a19;
+  --border: #242421;
+  --border-strong: #383835;
+
+  --text: #f7f6f1;
+  --text-2: #b4b2a8;
+  --text-3: #7d7b73;
+
+  /* Diverging scale: 0.0 = false, 0.5 = no signal, 1.0 = true */
+  --belief-false: #e34948;
+  --belief-neutral: #383835;
+  --belief-true: #3987e5;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-ink: var(--text);
+  --color-ink-2: var(--text-2);
+  --color-ink-3: var(--text-3);
+  --color-belief-false: var(--belief-false);
+  --color-belief-true: var(--belief-true);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-display);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Tabular figures everywhere a number is compared against another number. */
+.nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+::selection {
+  background: var(--belief-true);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--belief-true);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Hairline rule used to separate editorial blocks. */
+.rule {
+  height: 1px;
+  background: linear-gradient(to right, var(--border-strong), transparent);
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+.fade-up {
+  animation: fade-up 420ms cubic-bezier(0.2, 0.6, 0.2, 1) both;
+}
