@@ -1,96 +1,80 @@
 # alexandre ribeiro — portfolio
 
 An editorial portfolio whose centrepiece is not a description of the work but
-the work itself: a running instance of **Epistemic Marketplace**, where six
-agents with different cognitive architectures evaluate a claim and produce a
-distribution of belief instead of an answer.
+the work itself: recorded debates from
+[Epistemic Marketplace](https://github.com/alexmbribeiro/epistemic-marketplace),
+replayed round by round, with the peer-Elo ranking the system computes.
 
-## How the demo works
+## Updating it
 
-Two paths, and the page always says which one you are looking at.
+The debates on the page are copied from the running system, never written by
+hand. To refresh them:
 
-| | Cached run | Live run |
+```bash
+# 1. with the Epistemic Marketplace backend running on :8000
+npm run sync
+
+# 2. publish
+git add data public/debates && git commit -m "Sync debates" && git push
+```
+
+`npm run sync` only ever sends GET requests, so it cannot create a debate or
+change the data it copies. It writes:
+
+| Path | What | Loaded |
 |---|---|---|
-| Trigger | the three preset claims | free text in the input |
-| Source | stored transcripts in `lib/cached-debates.ts` | six parallel calls to the Claude API |
-| Cost | none | six Opus calls |
-| Works without an API key | yes | no |
+| `data/marketplace.json` | index of debates, ranking, judge severity, fault lines | imported by the page at build time |
+| `public/debates/<id>.json` | one full debate each: three rounds, exchanges, verdict, jury | fetched when a visitor opens it |
 
-The cached path is the default, so the site is fully functional on a deployment
-with no credentials. The badge next to the claim reads `cached run` or
-`live run` — a stored transcript is never presented as freshly generated.
+Debates that no longer exist upstream are removed from `public/debates/` on the
+next sync. The page footer records the sync date and the Epistemic Marketplace
+commit it came from.
+
+Options: `EM_API` points at a backend other than `http://127.0.0.1:8000`;
+`EM_REPO` points at the Epistemic Marketplace checkout if it is not a sibling
+directory (used only to record the source commit).
+
+## What the snapshot deliberately leaves out
+
+- **Confidence intervals.** In about a third of stored positions the model's
+  interval does not contain its own belief score, so drawing them would present
+  noise as uncertainty.
+- **Anything not produced by a completed debate.** Running or failed debates are
+  skipped.
 
 ## Architecture
 
 ```
-lib/profile.ts          every factual claim the page makes, in one place
-lib/agents.ts           the six archetypes, ported from the Python originals
-lib/debate.ts           position types + the LMSR-inspired aggregator
-lib/cached-debates.ts   stored transcripts
-lib/ratelimit.ts        in-memory per-IP and global caps for the live path
-app/api/debate/route.ts SSE endpoint: fans out to six agents, streams each
-components/Belief.tsx   diverging belief meter + distribution histogram
-components/DebateDemo.tsx  the interactive hero
+lib/profile.ts            every factual claim the page makes about Alexandre
+lib/marketplace.ts        snapshot types, claim grouping, featured-debate choice
+scripts/sync.mjs          read-only export from the Epistemic Marketplace API
+components/DebateReplay   the replay: rounds, belief tracks, exchanges, verdict
+components/Ranking        peer-Elo table, judge severity, fault lines
+components/Belief         diverging belief colour, meter and per-round track
 ```
 
-Nothing in the JSX hardcodes a fact about Alexandre — `lib/profile.ts` is the
-single source of truth, so the CV and the site cannot drift apart.
+The page is fully static. There are no API routes, no environment variables
+and no keys.
 
-### The API route
-
-`POST /api/debate` takes `{ claim }` and returns a `text/event-stream`. All six
-agents are dispatched concurrently with `Promise.allSettled`, and each position
-is pushed to the client the moment it lands rather than waiting on the slowest
-agent. One agent failing does not fail the debate — the card shows as
-unavailable and the aggregate is computed from whoever answered.
-
-Structured output is enforced with `messages.parse()` and a Zod schema, so a
-malformed position is impossible rather than merely unlikely.
+The replay opens on the debate where the agents moved furthest (largest total
+belief swing), autoplays once through the three rounds and stops on the
+verdict. With reduced motion it opens directly on the verdict.
 
 ### Colour
 
-Colour does exactly one job on this site: encoding belief. Everything else is
-monochrome ink. The scale is diverging — red at 0 (false), neutral grey at 0.5
-(no signal), blue at 1 (true) — and both poles are validated for colour-vision
-separation and 3:1 contrast against the dark surface. Every meter prints its
-number, so belief is never communicated by colour alone.
+Colour does one job: encoding belief. Red at 0 (false), neutral grey at 0.5
+(no signal), blue at 1 (true), mixed in OKLab. Both poles are validated for
+colour-vision separation and 3:1 contrast against the dark surface, and every
+belief is also printed as a number. Agents are identified by name, never by
+colour.
 
 ## Running it
 
 ```bash
 npm install
-cp .env.example .env.local   # optional — only the live path needs a key
 npm run dev
 ```
 
-## Cost
-
-There is no free tier on the Anthropic API. One live debate is six calls, so
-the model is the whole cost story:
-
-| Model | Relative cost | Notes |
-|---|---|---|
-| `claude-haiku-4-5` (default) | 1x | a few cents per debate |
-| `claude-opus-5` | ~5x | noticeably sharper reasoning |
-
-Those are estimates derived from published token pricing, not measured against
-this app. Run a handful of debates and read the real figure off the Anthropic
-usage dashboard before relying on it.
-
-The spend ceiling is enforced as request caps (`DEBATE_PER_IP_PER_HOUR`,
-`DEBATE_GLOBAL_PER_DAY`). Because the cached path is the default and is never
-rate limited, tightening them degrades the live extra and never the site — and
-deploying with no key at all is a perfectly good configuration.
-
-Note that thinking and effort are configured differently across model
-generations: Haiku 4.5 rejects `output_config.effort` and needs an explicit
-thinking budget, while Opus 5 takes adaptive thinking plus effort.
-`reasoningConfig()` in the route branches on this, so switching models is a
-one-variable change.
-
 ## Deploying
 
-Vercel, with `ANTHROPIC_API_KEY` set in the project's environment variables. The
-rate limiter holds state in memory per instance, which is enough to blunt casual
-abuse of the live path; swap in Upstash Redis if it ever needs to hold a real
-line.
+Vercel, with no configuration. Every push to `main` redeploys.

@@ -117,21 +117,30 @@ export type Project = {
   detail: string;
   stack: string[];
   flag?: string;
+  /** Engineering notes: what broke, and how it was found. */
+  notes?: string[];
 };
 
 export const projects: Project[] = [
   {
     name: "Epistemic Marketplace",
-    tagline: "Six agents that disagree on purpose",
-    year: "2025",
-    flag: "Running at the top of this page",
+    tagline: "Fourteen philosophers who disagree on purpose",
+    year: "2025 — 2026",
+    flag: "Replayed at the top of this page",
     body:
-      "Most AI products collapse a hard question into one confident answer. This one refuses to. Six agents with genuinely different cognitive architectures — Bayesian, Falsificationist, Contrarian, Dialectician, Analogist, Frequentist — evaluate a claim independently, challenge each other, and the output is a belief distribution rather than a verdict.",
+      "Most AI products collapse a hard question into one confident answer. This one refuses to. Fourteen agents, each a philosopher's method written as a prompt — Hume, Nagarjuna, Weil, Kant, Dostoevsky and nine more — argue a claim over three rounds: alone, then cross-examining each other by name, then revising. Each declares what a belief score means in its own vocabulary and where its method is systematically wrong. The output is where they landed and who moved, not a verdict.",
     detail:
-      "Each archetype has its own reasoning rules and, deliberately, its own declared weakness: the Frequentist cannot reason about unique events, the Falsificationist can be epistemically cowardly about untestable questions, the Contrarian is systematically wrong where consensus is well-earned. Positions are aggregated with an LMSR-inspired weighting, and the arguments are laid out as a force-directed graph so you can see where the disagreement actually lives. The product is the map of the uncertainty, not the answer.",
+      "After every debate, three philosophers who took no part score each participant on craft — did it hold to its own method, engage what was actually said, offer cruxes that could genuinely fail — and never on whether they agreed with it. Those scores move a peer Elo, and each judge's severity is published beside it. Nothing in the ranking measures being right: there is no ground truth for these claims, and appointing one would mean appointing someone to declare it.",
+    notes: [
+      "Runs on the Gemini Live API, because the regular endpoint's free tier allows about twenty requests a day and one debate is eighteen calls. Structured output meant declaring a function and requesting audio that is never read — the tool-call channel is independent of the audio stream.",
+      "Gemini treats a schema as a hint, not a contract: cruxes came back as objects, argument types outside the enum. Every response is coerced against the declared schema before it reaches the database, and a missing required field triggers a re-ask — never a fabricated value.",
+      "Quota errors arrive two ways: an HTTP 429, or a websocket close frame with code 1011 and no status code at all. Retrying only the first silently killed whole juries. Both are classified now, and a bounded semaphore stops six agents backing off in lockstep and colliding again.",
+      "Challenge edges were matched by substring, so every adjectival form missed — \"Wittgensteinian\" does not fit inside \"Wittgenstein\". 95 of 234 edges were being drawn. Worse, the ones that were drawn never reached the agent they targeted: round three saw only headlines. The graph depicted a confrontation that had not happened.",
+      "Reputation weighting was removed. It was seeded at 1.0 and nothing ever moved it, so every weighted mean equalled the plain mean — a sophistication that was only decorative.",
+    ],
     stack: [
-      "Python", "FastAPI", "PostgreSQL", "Redis", "Claude API",
-      "Next.js", "TypeScript", "D3.js", "Docker",
+      "Python", "FastAPI", "PostgreSQL", "Redis", "WebSockets",
+      "Gemini Live API", "Next.js", "TypeScript",
     ],
   },
   {

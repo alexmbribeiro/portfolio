@@ -1,0 +1,514 @@
+{
+ "syncedAt": "2026-09-22T18:49:40.451Z",
+ "sourceCommit": "81a310b",
+ "debates": [
+  {
+   "id": "4603a3ca-4418-4aad-8617-83943f9f75e3",
+   "claim": "Consciousness will be fully explained in physical terms.",
+   "category": "science",
+   "createdAt": "2026-09-21T06:14:29.576693Z",
+   "mean": 0.29,
+   "std": 0.16,
+   "convergence": "unchanged",
+   "agentCount": 7,
+   "swing": 0.2,
+   "reversals": 1
+  },
+  {
+   "id": "e417e04c-3f17-4fb0-abaf-6b32af5d062f",
+   "claim": "Consciousness will be fully explained in physical terms.",
+   "category": "science",
+   "createdAt": "2026-09-21T06:15:23.778353Z",
+   "mean": 0.52,
+   "std": 0.23,
+   "convergence": "unchanged",
+   "agentCount": 7,
+   "swing": 0.8,
+   "reversals": 2
+  },
+  {
+   "id": "1ea03dac-cf90-45b7-ae93-2993c4661281",
+   "claim": "To understand completely is to forgive.",
+   "category": "philosophy",
+   "createdAt": "2026-09-21T06:16:30.005679Z",
+   "mean": 0.39,
+   "std": 0.26,
+   "convergence": "unchanged",
+   "agentCount": 7,
+   "swing": 1.3,
+   "reversals": 3
+  },
+  {
+   "id": "f9530b25-8d4b-4f69-8764-79b016cb0488",
+   "claim": "To understand completely is to forgive.",
+   "category": "philosophy",
+   "createdAt": "2026-09-21T06:17:18.154061Z",
+   "mean": 0.33,
+   "std": 0.18,
+   "convergence": "unchanged",
+   "agentCount": 7,
+   "swing": 0.7,
+   "reversals": 1
+  },
+  {
+   "id": "2e956a3a-f917-48de-bb9d-7ad88a85c4eb",
+   "claim": "Money corrupts what it measures.",
+   "category": "economics",
+   "createdAt": "2026-09-21T06:18:06.329887Z",
+   "mean": 0.57,
+   "std": 0.14,
+   "convergence": "unchanged",
+   "agentCount": 7,
+   "swing": 1.75,
+   "reversals": 2
+  },
+  {
+   "id": "ab7dba4e-e761-4da6-8fdb-aa4e638b18d1",
+   "claim": "Money corrupts what it measures.",
+   "category": "economics",
+   "createdAt": "2026-09-21T06:20:06.751659Z",
+   "mean": 0.6,
+   "std": 0.14,
+   "convergence": "unchanged",
+   "agentCount": 7,
+   "swing": 1.25,
+   "reversals": 2
+  },
+  {
+   "id": "13bb2043-5b60-4428-9ca4-e74ea1ceb777",
+   "claim": "A just society could be designed by people who did not have to live in it.",
+   "category": "politics",
+   "createdAt": "2026-09-21T06:22:19.167091Z",
+   "mean": 0.17,
+   "std": 0.11,
+   "convergence": "unchanged",
+   "agentCount": 7,
+   "swing": 2.55,
+   "reversals": 4
+  },
+  {
+   "id": "83c80a38-48ec-4f95-84f3-370c48e1bace",
+   "claim": "A just society could be designed by people who did not have to live in it.",
+   "category": "politics",
+   "createdAt": "2026-09-21T06:23:01.320519Z",
+   "mean": 0.24,
+   "std": 0.15,
+   "convergence": "unchanged",
+   "agentCount": 7,
+   "swing": 1.55,
+   "reversals": 2
+  },
+  {
+   "id": "418afb0a-968a-4980-8f36-0c63c60ce5a9",
+   "claim": "Boredom tells you something true.",
+   "category": "other",
+   "createdAt": "2026-09-21T06:23:43.464309Z",
+   "mean": 0.51,
+   "std": 0.21,
+   "convergence": "unchanged",
+   "agentCount": 7,
+   "swing": 1.85,
+   "reversals": 4
+  },
+  {
+   "id": "654dfa7e-2373-4a3c-a336-aabb4a66a023",
+   "claim": "Boredom tells you something true.",
+   "category": "other",
+   "createdAt": "2026-09-21T06:24:43.668996Z",
+   "mean": 0.51,
+   "std": 0.19,
+   "convergence": "converged",
+   "agentCount": 7,
+   "swing": 1.2,
+   "reversals": 2
+  },
+  {
+   "id": "6c9a2a69-9b26-4d28-9771-728919383830",
+   "claim": "Human consciousness is an accidental byproduct of evolution.",
+   "category": "other",
+   "createdAt": "2026-09-22T18:27:54.158001Z",
+   "mean": 0.47,
+   "std": 0.07,
+   "convergence": "converged",
+   "agentCount": 7,
+   "swing": 1.3,
+   "reversals": 4
+  },
+  {
+   "id": "e579cac7-2da0-4100-ba94-3e4b8e433351",
+   "claim": "Human consciousness is an accidental byproduct of evolution.",
+   "category": "other",
+   "createdAt": "2026-09-22T18:31:01.535949Z",
+   "mean": 0.36,
+   "std": 0.21,
+   "convergence": "diverged",
+   "agentCount": 7,
+   "swing": 4.25,
+   "reversals": 4
+  }
+ ],
+ "ranking": [
+  {
+   "name": "James",
+   "archetype": "pragmatist",
+   "description": "Pragmatic method. Asks what concrete difference the claim's truth would make, and treats a difference that makes no difference as no difference at all.",
+   "elo": 1743.7,
+   "debated": 6,
+   "judged": 4,
+   "provisional": false,
+   "criteria": {
+    "method": 91,
+    "engagement": 85,
+    "cruxes": 76,
+    "responsive": 79,
+    "ratings": 18
+   }
+  },
+  {
+   "name": "Dostoevsky",
+   "archetype": "dostoevskian",
+   "description": "The embodiment test. Not a system but a method: put the idea in a person, follow it to where it takes them, and ask whether it can actually be lived.",
+   "elo": 1711.4,
+   "debated": 6,
+   "judged": 1,
+   "provisional": false,
+   "criteria": {
+    "method": 88,
+    "engagement": 83,
+    "cruxes": 72,
+    "responsive": 74,
+    "ratings": 18
+   }
+  },
+  {
+   "name": "Hume",
+   "archetype": "humean",
+   "description": "Radical empiricism. Asks which impression a claim traces back to, refuses the leap from is to ought, and doubts that any regularity licenses a necessity.",
+   "elo": 1689.5,
+   "debated": 6,
+   "judged": 2,
+   "provisional": false,
+   "criteria": {
+    "method": 92,
+    "engagement": 80,
+    "cruxes": 78,
+    "responsive": 79,
+    "ratings": 18
+   }
+  },
+  {
+   "name": "Aristotle",
+   "archetype": "aristotelian",
+   "description": "Four causes and the mean. Insists on defining the thing before judging it, and looks for the end it serves rather than only the force that produced it.",
+   "elo": 1602.9,
+   "debated": 6,
+   "judged": 3,
+   "provisional": false,
+   "criteria": {
+    "method": 90,
+    "engagement": 79,
+    "cruxes": 73,
+    "responsive": 75,
+    "ratings": 18
+   }
+  },
+  {
+   "name": "Kant",
+   "archetype": "kantian",
+   "description": "Transcendental method. Asks what must be true for the claim to be possible at all, and whether its maxim survives being made universal.",
+   "elo": 1576,
+   "debated": 6,
+   "judged": 2,
+   "provisional": false,
+   "criteria": {
+    "method": 91,
+    "engagement": 79,
+    "cruxes": 74,
+    "responsive": 76,
+    "ratings": 18
+   }
+  },
+  {
+   "name": "Jung",
+   "archetype": "jungian",
+   "description": "Analytical psychology. Reads a claim as a symbol as well as a statement, and asks what the position compensates for in the one who holds it.",
+   "elo": 1555,
+   "debated": 6,
+   "judged": 4,
+   "provisional": false,
+   "criteria": {
+    "method": 79,
+    "engagement": 76,
+    "cruxes": 66,
+    "responsive": 72,
+    "ratings": 18
+   }
+  },
+  {
+   "name": "Nagarjuna",
+   "archetype": "madhyamaka",
+   "description": "Madhyamaka. Asserts no thesis of its own; takes each position in turn and shows it collapses, because the terms were never the self-standing things they pretended to be.",
+   "elo": 1528.6,
+   "debated": 6,
+   "judged": 3,
+   "provisional": false,
+   "criteria": {
+    "method": 91,
+    "engagement": 72,
+    "cruxes": 64,
+    "responsive": 72,
+    "ratings": 18
+   }
+  },
+  {
+   "name": "Wittgenstein",
+   "archetype": "wittgensteinian",
+   "description": "Therapeutic linguistics. Asks whether the claim is a question at all, or a knot in language that dissolves once you see how the words are actually used.",
+   "elo": 1466.7,
+   "debated": 6,
+   "judged": 3,
+   "provisional": false,
+   "criteria": {
+    "method": 92,
+    "engagement": 79,
+    "cruxes": 70,
+    "responsive": 70,
+    "ratings": 18
+   }
+  },
+  {
+   "name": "Kierkegaard",
+   "archetype": "kierkegaardian",
+   "description": "The single individual. Asks what it would cost to actually live by the claim, and treats a truth nobody has staked anything on as not yet a truth for anyone.",
+   "elo": 1447.2,
+   "debated": 6,
+   "judged": 3,
+   "provisional": false,
+   "criteria": {
+    "method": 85,
+    "engagement": 73,
+    "cruxes": 66,
+    "responsive": 68,
+    "ratings": 18
+   }
+  },
+  {
+   "name": "Spinoza",
+   "archetype": "spinozist",
+   "description": "Geometric necessity. Holds that nothing is contingent — apparent chance is ignorance of causes — and asks whether a claim is an adequate idea or a passion speaking.",
+   "elo": 1413.7,
+   "debated": 6,
+   "judged": 3,
+   "provisional": false,
+   "criteria": {
+    "method": 92,
+    "engagement": 75,
+    "cruxes": 68,
+    "responsive": 68,
+    "ratings": 18
+   }
+  },
+  {
+   "name": "Adler",
+   "archetype": "adlerian",
+   "description": "Individual Psychology. Reads claims teleologically — asks what purpose a belief serves the holder, and whether it moves toward or away from social interest.",
+   "elo": 1387.3,
+   "debated": 6,
+   "judged": 4,
+   "provisional": false,
+   "criteria": {
+    "method": 85,
+    "engagement": 74,
+    "cruxes": 61,
+    "responsive": 77,
+    "ratings": 18
+   }
+  },
+  {
+   "name": "Nietzsche",
+   "archetype": "nietzschean",
+   "description": "Genealogical suspicion. Asks not whether a claim is true but who it serves, what it is a symptom of, and what was made unthinkable in order to hold it.",
+   "elo": 1334.5,
+   "debated": 6,
+   "judged": 1,
+   "provisional": false,
+   "criteria": {
+    "method": 81,
+    "engagement": 74,
+    "cruxes": 64,
+    "responsive": 68,
+    "ratings": 18
+   }
+  },
+  {
+   "name": "Weil",
+   "archetype": "weilian",
+   "description": "Attention and affliction. Asks whether the claim was formed by actually looking at the people inside it, or reached over their heads.",
+   "elo": 1273,
+   "debated": 6,
+   "judged": 1,
+   "provisional": false,
+   "criteria": {
+    "method": 80,
+    "engagement": 66,
+    "cruxes": 62,
+    "responsive": 61,
+    "ratings": 18
+   }
+  },
+  {
+   "name": "Marx",
+   "archetype": "marxist",
+   "description": "Historical materialism. Asks what mode of production a claim belongs to, whose interest it serves, and what social relation it presents as a fact of nature.",
+   "elo": 1270.5,
+   "debated": 6,
+   "judged": 2,
+   "provisional": false,
+   "criteria": {
+    "method": 86,
+    "engagement": 71,
+    "cruxes": 64,
+    "responsive": 65,
+    "ratings": 18
+   }
+  }
+ ],
+ "judgeSeverity": [
+  {
+   "judge": "Nietzsche",
+   "mean": 72.3,
+   "n": 7
+  },
+  {
+   "judge": "Weil",
+   "mean": 72.5,
+   "n": 7
+  },
+  {
+   "judge": "Wittgenstein",
+   "mean": 73,
+   "n": 21
+  },
+  {
+   "judge": "Aristotle",
+   "mean": 73.1,
+   "n": 21
+  },
+  {
+   "judge": "Kierkegaard",
+   "mean": 74,
+   "n": 21
+  },
+  {
+   "judge": "Nagarjuna",
+   "mean": 74.3,
+   "n": 21
+  },
+  {
+   "judge": "Marx",
+   "mean": 74.7,
+   "n": 14
+  },
+  {
+   "judge": "James",
+   "mean": 75,
+   "n": 28
+  },
+  {
+   "judge": "Hume",
+   "mean": 77.5,
+   "n": 14
+  },
+  {
+   "judge": "Dostoevsky",
+   "mean": 77.5,
+   "n": 7
+  },
+  {
+   "judge": "Adler",
+   "mean": 77.9,
+   "n": 28
+  },
+  {
+   "judge": "Spinoza",
+   "mean": 78.3,
+   "n": 21
+  },
+  {
+   "judge": "Kant",
+   "mean": 78.6,
+   "n": 14
+  },
+  {
+   "judge": "Jung",
+   "mean": 79.1,
+   "n": 28
+  }
+ ],
+ "faultLines": {
+  "furthestApart": [
+   {
+    "a": "Hume",
+    "b": "Spinoza",
+    "mean_gap": 0.533,
+    "n": 3
+   },
+   {
+    "a": "Spinoza",
+    "b": "Dostoevsky",
+    "mean_gap": 0.467,
+    "n": 3
+   },
+   {
+    "a": "James",
+    "b": "Nietzsche",
+    "mean_gap": 0.425,
+    "n": 4
+   },
+   {
+    "a": "James",
+    "b": "Spinoza",
+    "mean_gap": 0.4,
+    "n": 2
+   },
+   {
+    "a": "Nietzsche",
+    "b": "Spinoza",
+    "mean_gap": 0.4,
+    "n": 2
+   }
+  ],
+  "closest": [
+   {
+    "a": "Kant",
+    "b": "Wittgenstein",
+    "mean_gap": 0,
+    "n": 3
+   },
+   {
+    "a": "Hume",
+    "b": "Dostoevsky",
+    "mean_gap": 0,
+    "n": 2
+   },
+   {
+    "a": "Spinoza",
+    "b": "Wittgenstein",
+    "mean_gap": 0,
+    "n": 1
+   },
+   {
+    "a": "Kierkegaard",
+    "b": "Aristotle",
+    "mean_gap": 0.025,
+    "n": 2
+   },
+   {
+    "a": "Hume",
+    "b": "Wittgenstein",
+    "mean_gap": 0.025,
+    "n": 2
+   }
+  ]
+ }
+}

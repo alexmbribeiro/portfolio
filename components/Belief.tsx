@@ -1,11 +1,10 @@
-import type { BeliefDistribution } from "@/lib/debate";
-
 /**
  * Diverging colour for a probability.
  *
  * 0.5 means "no signal" and resolves to the neutral grey; distance from the
  * midpoint mixes toward the true (blue) or false (red) pole. Mixing happens in
- * OKLab so the ramp is perceptually even rather than bunching in the middle.
+ * OKLab and is eased, so 0.62 reads as meaningfully blue while 0.50 stays
+ * exactly neutral.
  */
 export function beliefColor(v: number): string {
   const pole = v >= 0.5 ? "var(--belief-true)" : "var(--belief-false)";
@@ -13,81 +12,34 @@ export function beliefColor(v: number): string {
   return `color-mix(in oklab, ${pole} ${pct}%, var(--belief-neutral))`;
 }
 
-/** Drawable height of the histogram plot area, inside the h-28 container. */
-const BAR_AREA_PX = 76;
-
 export function fmt(v: number): string {
   return v.toFixed(2);
 }
 
 /**
- * A single agent's belief, as a bar diverging from the 0.5 midpoint, with the
- * agent's stated confidence interval behind it. The number is always printed —
- * colour is never the only channel.
+ * A belief as a bar diverging from the 0.5 midpoint. The number is always
+ * printed — colour is never the only channel.
  */
-export function BeliefMeter({
-  value,
-  low,
-  high,
-  label = "belief",
-}: {
-  value: number;
-  low?: number;
-  high?: number;
-  label?: string;
-}) {
+export function BeliefMeter({ value, label = "belief" }: { value: number; label?: string }) {
   const fromCenter = Math.abs(value - 0.5) * 100;
   const left = value >= 0.5 ? 50 : 50 - fromCenter;
-
-  const hasInterval =
-    typeof low === "number" && typeof high === "number" && high > low;
-  const ciLeft = hasInterval ? Math.min(low!, high!) * 100 : 0;
-  const ciWidth = hasInterval ? Math.abs(high! - low!) * 100 : 0;
 
   return (
     <div>
       <div className="flex items-baseline justify-between gap-3">
-        <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-3">
-          {label}
-        </span>
-        <span className="nums font-mono text-sm text-ink">
-          {fmt(value)}
-          {hasInterval && (
-            <span className="text-ink-3">
-              {" "}
-              [{fmt(low!)}–{fmt(high!)}]
-            </span>
-          )}
-        </span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-3">{label}</span>
+        <span className="nums font-mono text-sm text-ink">{fmt(value)}</span>
       </div>
-
       <div className="relative mt-2 h-2 w-full rounded-full bg-surface-2">
-        {/* Confidence interval: the agent's own stated uncertainty. */}
-        {hasInterval && (
-          <div
-            className="absolute inset-y-0 rounded-full opacity-30"
-            style={{
-              left: `${ciLeft}%`,
-              width: `${ciWidth}%`,
-              background: beliefColor(value),
-            }}
-          />
-        )}
-        {/* The midpoint is the baseline this bar is anchored to. */}
         <div
           className="absolute inset-y-[-3px] left-1/2 w-px -translate-x-1/2"
           style={{ background: "var(--border-strong)" }}
         />
         <div
-          className="absolute inset-y-0 rounded-[4px] transition-[width,left] duration-500"
-          style={{
-            left: `${left}%`,
-            width: `${Math.max(fromCenter, 0.6)}%`,
-            background: beliefColor(value),
-          }}
+          className="absolute inset-y-0 rounded-[4px] transition-[width,left] duration-700"
+          style={{ left: `${left}%`, width: `${Math.max(fromCenter, 0.6)}%`, background: beliefColor(value) }}
         />
       </div>
-
       <div className="mt-1.5 flex justify-between font-mono text-[10px] text-ink-3">
         <span>false</span>
         <span>uncertain</span>
@@ -98,93 +50,41 @@ export function BeliefMeter({
 }
 
 /**
- * Where the six landed. A histogram is the right form here: the shape of the
- * spread is the finding, and a single averaged number would destroy it.
+ * One agent's path across the rounds on a shared 0–1 axis.
+ *
+ * Earlier rounds stay as faint dots joined by a line, and the live dot slides
+ * to its new position when the round advances — so a reversal is something
+ * you watch happen, not a number you have to compare.
  */
-export function BeliefDistributionChart({ d }: { d: BeliefDistribution }) {
-  const max = Math.max(...d.buckets.map((b) => b.count), 1);
-  const direction =
-    d.mean > 0.6 ? "leans true" : d.mean < 0.4 ? "leans false" : "no consensus";
+export function BeliefTrack({ beliefs, round }: { beliefs: number[]; round: number }) {
+  const shown = beliefs.slice(0, round + 1);
+  const current = shown[shown.length - 1];
+  const lo = Math.min(...shown);
+  const hi = Math.max(...shown);
 
   return (
-    <div className="rounded-lg border border-border bg-surface p-5 sm:p-6">
-      <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
-        <h3 className="font-display text-xl text-ink">Aggregated belief</h3>
-        <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-3">
-          {d.agentCount} agents · {direction}
-        </span>
-      </div>
+    <div className="relative h-5 w-full" aria-hidden>
+      <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-border" />
+      <div className="absolute left-1/2 top-1/2 h-3 w-px -translate-x-1/2 -translate-y-1/2 bg-border-strong" />
 
-      <div className="mt-5 grid gap-6 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-        <div>
-          <div className="nums flex items-baseline gap-2">
-            <span className="font-display text-5xl leading-none text-ink">
-              {fmt(d.mean)}
-            </span>
-            <span className="font-mono text-xs text-ink-3">± {fmt(d.std)}</span>
-          </div>
-          <p className="mt-2 text-sm text-ink-2">
-            Mean belief across the six, with the standard deviation of their
-            disagreement.
-          </p>
-          <div className="mt-4">
-            <BeliefMeter value={d.mean} label="aggregate" />
-          </div>
-        </div>
+      {/* Ground covered so far */}
+      <div
+        className="absolute top-1/2 h-[2px] -translate-y-1/2 rounded-full bg-border-strong transition-[left,width] duration-700"
+        style={{ left: `${lo * 100}%`, width: `${(hi - lo) * 100}%` }}
+      />
 
-        {/* Histogram: counts per belief bucket, coloured by position on the scale. */}
-        <div>
-          <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-3">
-            Distribution
-          </span>
-          <div className="mt-3 flex h-28 items-stretch gap-[2px]">
-            {d.buckets.map((b) => (
-              <div key={b.range} className="flex h-full flex-1 flex-col items-center justify-end gap-1.5">
-                <span className="nums font-mono text-[10px] text-ink-2">
-                  {b.count || ""}
-                </span>
-                <div
-                  className="w-full rounded-t-[4px]"
-                  style={{
-                    height: `${b.count ? Math.max((b.count / max) * BAR_AREA_PX, 6) : 2}px`,
-                    background: b.count
-                      ? beliefColor(bucketMidpoint(b.range))
-                      : "var(--surface-2)",
-                  }}
-                />
-              </div>
-            ))}
-          </div>
-          <div className="nums mt-1.5 flex justify-between font-mono text-[9px] text-ink-3">
-            {["0.0", "0.2", "0.4", "0.6", "0.8", "1.0"].map((t) => (
-              <span key={t}>{t}</span>
-            ))}
-          </div>
-        </div>
-      </div>
+      {shown.slice(0, -1).map((b, i) => (
+        <div
+          key={i}
+          className="absolute top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40"
+          style={{ left: `${b * 100}%`, background: beliefColor(b) }}
+        />
+      ))}
 
-      <div className="mt-6 space-y-3 border-t border-border pt-5">
-        <div>
-          <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-3">
-            Zone of disagreement
-          </span>
-          <p className="mt-1 text-sm text-ink-2">{d.disagreementZone}</p>
-        </div>
-        {d.uniformWeights && (
-          <p className="text-xs text-ink-3">
-            LMSR weighting is uniform here: weights come from reputation earned
-            over past calibration, and a one-shot debate has no track record to
-            draw on. The weighted mean therefore equals the plain mean, and
-            saying so is cheaper than implying a sophistication that is not
-            present.
-          </p>
-        )}
-      </div>
+      <div
+        className="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full ring-2 ring-[var(--surface)] transition-[left,background-color] duration-700"
+        style={{ left: `${current * 100}%`, background: beliefColor(current) }}
+      />
     </div>
   );
-}
-
-function bucketMidpoint(range: string): number {
-  const [lo, hi] = range.split("–").map(Number);
-  return (lo + hi) / 2;
 }
