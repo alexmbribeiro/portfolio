@@ -5,7 +5,7 @@
 
 export const person = {
   name: "Alexandre Ribeiro",
-  role: "Backend & AI Infrastructure Engineer",
+  role: "Full-stack Engineer",
   location: "Porto, Portugal",
   email: "alexandrembribeiro@gmail.com",
   github: "https://github.com/alexmbribeiro",
@@ -13,9 +13,7 @@ export const person = {
   linkedin: "https://www.linkedin.com/in/alexandrembribeiro",
   linkedinHandle: "alexandrembribeiro",
   cv: "/alexandre-ribeiro-cv.pdf",
-  headline: "I build systems where several models disagree — and the disagreement is the feature.",
-  intro:
-    "Backend and platform engineer at a nanotechnology R&D centre. I own a lot of surface area: TypeScript microservices on AWS, Traefik at the edge, RabbitMQ and a transactional outbox for events, Redis for cache, MQTT and CoAP down to the devices, auth and RBAC on top — and the internal GPU cluster that serves a self-hosted LLM to two teams.",
+  headline: "Every request gets routed somewhere. I build the somewhere.",
 } as const;
 
 export type Role = {
@@ -33,7 +31,7 @@ export const roles: Role[] = [
   {
     company: "CeNTI",
     companyNote: "R&D centre for nanotechnology and smart materials",
-    title: "Researcher — Backend & Platform",
+    title: "Researcher",
     period: "Jan 2026 — Present",
     location: "Vila Nova de Famalicão",
     lede:
@@ -126,7 +124,7 @@ export const projects: Project[] = [
     name: "Epistemic Marketplace",
     tagline: "Fourteen philosophers who disagree on purpose",
     year: "2025 — 2026",
-    flag: "Replayed at the top of this page",
+    flag: "Recorded debates, replayed below",
     body:
       "Most AI products collapse a hard question into one confident answer. This one refuses to. Fourteen agents, each a philosopher's method written as a prompt — Hume, Nagarjuna, Weil, Kant, Dostoevsky and nine more — argue a claim over three rounds: alone, then cross-examining each other by name, then revising. Each declares what a belief score means in its own vocabulary and where its method is systematically wrong. The output is where they landed and who moved, not a verdict.",
     detail:

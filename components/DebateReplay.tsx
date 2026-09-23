@@ -48,11 +48,31 @@ export function DebateReplay({
   const [step, setStep] = useState(0);
   const [playing, setPlaying] = useState(true);
   const [open, setOpen] = useState<string | null>(null);
+  const [seen, setSeen] = useState(false);
+  const root = useRef<HTMLDivElement>(null);
+
+  // The replay sits halfway down the page, so it waits until it is actually
+  // on screen; starting on load would finish it before anyone scrolled there.
+  useEffect(() => {
+    const el = root.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setSeen(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.25 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   // Replays once through the rounds and comes to rest on the verdict. Any
   // interaction hands control to the reader. With reduced motion there is no
   // replay at all: the debate opens on its outcome.
-  const animating = playing && step < VERDICT;
+  const animating = playing && seen && step < VERDICT;
   useEffect(() => {
     if (!animating) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -102,7 +122,7 @@ export function DebateReplay({
   const exchanges = debate.exchanges.filter((e) => e.round === 2);
 
   return (
-    <div>
+    <div ref={root}>
       {/* ── Claim picker ───────────────────────────────────────────── */}
       {/* On a phone six stacked cards would push the replay out of view while
           it plays, so the picker scrolls sideways there instead. */}
@@ -162,7 +182,7 @@ export function DebateReplay({
                 <div className="h-[3px] w-full overflow-hidden rounded-full bg-surface-2">
                   <div
                     className={`h-full rounded-full bg-ink-2 ${
-                      step > i ? "w-full" : step === i ? (animating ? "animate-[fill_2800ms_linear_both]" : "w-full") : "w-0"
+                      step > i ? "w-full" : step === i ? (animating ? "animate-[fill_2800ms_linear_both]" : seen || !playing ? "w-full" : "w-0") : "w-0"
                     }`}
                   />
                 </div>

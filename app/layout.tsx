@@ -28,7 +28,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${display.variable} h-full antialiased`}
     >
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+        {/* The hero light reaches past the content column to the window edge.
+            Clipping here rather than on <body> matters: body overflow is
+            propagated to the viewport, where some mobile browsers still let
+            the page pan sideways. */}
+        <div className="relative overflow-x-clip">{children}</div>
+      </body>
     </html>
   );
 }
