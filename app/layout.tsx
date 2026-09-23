@@ -12,7 +12,7 @@ const display = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://alexandreribeiro.dev"),
+  metadataBase: new URL("https://portfolio-alexandreribeiro.vercel.app"),
   title: `${person.name} — ${person.role}`,
   description: person.headline,
   openGraph: {
